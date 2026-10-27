@@ -14,7 +14,7 @@ SolarSetu ek interactive web app hai jo Gujarat ke nagrik ko unke carbon footpri
 
 ## 🚀 Live Demo
 
-👉 **[Open SolarSetu](https://YOUR-NETLIFY-URL.netlify.app)**
+👉 **[Open SolarSetu](https://comforting-daifuku-431665.netlify.app)**
 
 ---
 
