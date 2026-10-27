@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#060b18">
+<title>SolarSetu · Mission LiFE Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow bg-glow-1"></div>
+<div class="bg-glow bg-glow-2"></div>
+
+<div id="loader" class="loader">
+  <div class="loader-logo">☀️</div>
+  <div class="loader-ring"></div>
+  <p class="loader-text">Initializing SolarSetu...</p>
+</div>
+
+<div id="app" class="app hidden">
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">☀️</div>
+        <div class="logo-text">
+          <h1>SolarSetu</h1>
+          <p>Mission LiFE · HC26-GEDA01</p>
+        </div>
+      </div>
+      <div id="user-chip" class="user-chip hidden">
+        <div class="user-avatar" id="user-avatar">R</div>
+        <div class="user-meta">
+          <p id="user-name-display">—</p>
+          <span id="user-pincode-display">—</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="onboarding" class="onboarding">
+    <div class="onboarding-card">
+      <div class="onboarding-step">Step 1 of 1</div>
+      <h2 class="onboarding-title">Aapki sustainability journey yahan se shuru hoti hai</h2>
+      <p class="onboarding-sub">30 second mein apna baseline carbon footprint aur rooftop solar feasibility jaanein.</p>
+      <div class="form-group">
+        <label>Aapka Naam</label>
+        <input id="inp-name" type="text" placeholder="Ramesh Patel" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label>Pin Code (Gujarat)</label>
+        <select id="inp-pincode">
+          <option value="380001|Ahmedabad">380001 · Ahmedabad</option>
+          <option value="382010|Gandhinagar">382010 · Gandhinagar</option>
+          <option value="390001|Vadodara">390001 · Vadodara</option>
+          <option value="395003|Surat">395003 · Surat</option>
+          <option value="360001|Rajkot">360001 · Rajkot</option>
+          <option value="364001|Bhavnagar">364001 · Bhavnagar</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Monthly Electricity Bill (₹)</label>
+        <input id="inp-bill" type="number" placeholder="2500" min="100">
+      </div>
+      <button id="btn-onboard" class="btn btn-primary btn-lg">
+        <span>Calculate My Footprint</span>
+        <span class="btn-arrow">→</span>
+      </button>
+    </div>
+  </main>
+
+  <main id="dashboard" class="dashboard hidden">
+    <div class="tabs">
+      <button class="tab active" data-tab="home">🏠 Home</button>
+      <button class="tab" data-tab="ar">📸 SolarLens</button>
+      <button class="tab" data-tab="scan">🧾 Bill Scanner</button>
+      <button class="tab" data-tab="community">🤝 Community</button>
+      <button class="tab" data-tab="rewards">🏆 Rewards</button>
+      <button class="tab" data-tab="vendors">📞 Vendors</button>
+    </div>
+
+    <div class="tab-content">
+
+      <section id="tab-home" class="tab-panel active">
+        <div class="stats-grid">
+          <div class="stat-card" style="--accent:#f59e0b">
+            <div class="stat-icon">⚡</div>
+            <div class="stat-content">
+              <p class="stat-label">Monthly Consumption</p>
+              <p class="stat-value"><span id="stat-units">0</span> <span class="stat-unit">kWh</span></p>
+            </div>
+          </div>
+          <div class="stat-card" style="--accent:#ef4444">
+            <div class="stat-icon">🌍</div>
+            <div class="stat-content">
+              <p class="stat-label">Carbon Footprint</p>
+              <p class="stat-value"><span id="stat-carbon">0</span> <span class="stat-unit">kg CO₂</span></p>
+            </div>
+          </div>
+          <div class="stat-card" style="--accent:#10b981">
+            <div class="stat-icon">🪙</div>
+            <div class="stat-content">
+              <p class="stat-label">Green Coins</p>
+              <p class="stat-value"><span id="stat-coins">0</span></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="home-grid">
+          <div class="glass-card solar-card">
+            <div class="card-header">
+              <div>
+                <h3>☀️ Rooftop Solar Feasibility</h3>
+                <p class="card-sub">Based on your consumption pattern</p>
+              </div>
+            </div>
+            <div class="feasibility-rows">
+              <div class="feas-row"><span>Recommended System</span><span class="feas-val emerald"><span id="solar-size">0</span> kW</span></div>
+              <div class="feas-row"><span>System Cost</span><span class="feas-val">₹<span id="solar-cost">0</span></span></div>
+              <div class="feas-row"><span>PM Surya Ghar Subsidy</span><span class="feas-val emerald">− ₹<span id="solar-subsidy">0</span></span></div>
+              <div class="feas-row total"><span>Your Net Investment</span><span class="feas-val amber">₹<span id="solar-net">0</span></span></div>
+              <div class="feas-row"><span>Annual Savings</span><span class="feas-val emerald">₹<span id="solar-savings">0</span></span></div>
+              <div class="feas-row highlight"><span>Payback Period</span><span class="feas-val cyan"><span id="solar-payback">0</span> years</span></div>
+            </div>
+            <button class="btn btn-primary btn-lg" onclick="window.SolarSetu.switchTab('vendors')">
+              <span>Request Vendor Callback</span><span class="btn-arrow">→</span>
+            </button>
+          </div>
+          <div class="glass-card chart-card">
+            <h3>💰 25-Year Savings Projection</h3>
+            <p class="card-sub">Cumulative savings including subsidy</p>
+            <div class="chart-wrap"><canvas id="savingsChart"></canvas></div>
+            <div class="chart-badges">
+              <span class="badge emerald">Break-even · Year <span id="breakeven">—</span></span>
+              <span class="badge cyan">25-yr Total · ₹<span id="total-savings">0</span></span>
+            </div>
+          </div>
+        </div>
+        <div class="nudge-card">
+          <div class="nudge-icon">⚡</div>
+          <div class="nudge-content">
+            <div class="nudge-title"><span class="pulse-dot"></span>Peak Hour Alert</div>
+            <p>Abhi <b>6 PM – 10 PM</b> peak hours chal rahe hain. Washing machine ko 10 PM ke baad shift karein aur <b>50 Green Coins</b> kamayein.</p>
+          </div>
+          <button class="nudge-btn" onclick="window.SolarSetu.showToast('✅ 50 Green Coins pending! Rewards tab mein claim karein')">Claim</button>
+        </div>
+      </section>
+
+      <section id="tab-ar" class="tab-panel">
+        <div class="glass-card ar-header-card">
+          <div class="ar-header-icon">📸</div>
+          <div>
+            <h3>SolarLens — Rooftop Scanner</h3>
+            <p class="card-sub">Apne rooftop ki photo upload karein. Hum AR overlay se solar panel placement visualize karenge aur exact capacity calculate karenge.</p>
+          </div>
+        </div>
+        <div class="ar-upload-zone" id="ar-dropzone">
+          <input type="file" id="ar-upload" accept="image/*" hidden>
+          <div class="ar-upload-icon">🖼️</div>
+          <h4>Rooftop photo upload karein</h4>
+          <p>JPG, PNG · Max 10 MB</p>
+          <button class="btn btn-primary" onclick="document.getElementById('ar-upload').click()">
+            <span>Choose Photo</span><span class="btn-arrow">→</span>
+          </button>
+        </div>
+        <div id="ar-result" class="hidden">
+          <div class="glass-card ar-canvas-card">
+            <div class="ar-canvas-header">
+              <h3>Live Solar Overlay</h3>
+              <span class="badge cyan">Simulated AR</span>
+            </div>
+            <div class="ar-canvas-wrap">
+              <canvas id="ar-canvas"></canvas>
+              <div class="ar-scan-line"></div>
+            </div>
+          </div>
+          <div class="ar-stats-grid">
+            <div class="ar-stat-card" style="--accent:#06b6d4"><div class="ar-stat-icon">📐</div><div><p class="stat-label">Roof Area</p><p class="stat-value"><span id="ar-area">0</span> <span class="stat-unit">m²</span></p></div></div>
+            <div class="ar-stat-card" style="--accent:#10b981"><div class="ar-stat-icon">🔲</div><div><p class="stat-label">Panels Fit</p><p class="stat-value"><span id="ar-panels">0</span></p></div></div>
+            <div class="ar-stat-card" style="--accent:#f59e0b"><div class="ar-stat-icon">⚡</div><div><p class="stat-label">Capacity</p><p class="stat-value"><span id="ar-capacity">0</span> <span class="stat-unit">kW</span></p></div></div>
+          </div>
+          <div class="glass-card ar-summary-card">
+            <h3>📊 Estimated Generation</h3>
+            <p class="card-sub">Gujarat ki average solar irradiance par based</p>
+            <div class="ar-generation-row">
+              <div><p class="stat-label">Daily Generation</p><p class="ar-gen-value"><span id="ar-daily">0</span> kWh</p></div>
+              <div><p class="stat-label">Monthly Savings</p><p class="ar-gen-value emerald">₹<span id="ar-monthly">0</span></p></div>
+              <div><p class="stat-label">Yearly Savings</p><p class="ar-gen-value cyan">₹<span id="ar-yearly">0</span></p></div>
+            </div>
+            <button class="btn btn-primary btn-lg" onclick="window.SolarSetu.switchTab('vendors')">
+              <span>Get Vendor Quotes for This Roof</span><span class="btn-arrow">→</span>
+            </button>
+          </div>
+          <button class="btn btn-secondary btn-lg" onclick="window.SolarSetu.resetAR()"><span>Upload Different Photo</span></button>
+          <p class="ar-disclaimer">*Demo visualization. Production version Google Solar API + full ARCore integration use karega.</p>
+        </div>
+      </section>
+
+      <section id="tab-scan" class="tab-panel">
+        <div class="glass-card scan-header-card">
+          <div class="scan-header-icon">🧾</div>
+          <div>
+            <h3>AI Bill Scanner</h3>
+            <p class="card-sub">Apna electricity bill upload karein. AI engine 5 second mein aapke ghar ka energy breakdown, waste points, aur savings plan generate karega.</p>
+          </div>
+        </div>
+        <div class="ar-upload-zone scan-upload-zone" id="scan-dropzone">
+          <input type="file" id="scan-upload" accept="image/*,application/pdf" hidden>
+          <div class="ar-upload-icon">📄</div>
+          <h4>Electricity bill upload karein</h4>
+          <p>JPG, PNG, PDF · Max 10 MB</p>
+          <button class="btn btn-primary" onclick="document.getElementById('scan-upload').click()">
+            <span>Choose Bill</span><span class="btn-arrow">→</span>
+          </button>
+        </div>
+        <div id="scan-loading" class="hidden">
+          <div class="glass-card scan-loading-card">
+            <div class="scan-ai-loader"><div class="scan-ai-ring"></div><div class="scan-ai-core">🤖</div></div>
+            <h3>AI Bill Analysis in Progress...</h3>
+            <p class="scan-loading-step" id="scan-step-text">Reading bill data...</p>
+            <div class="scan-progress-bar"><div class="scan-progress-fill" id="scan-progress-fill"></div></div>
+          </div>
+        </div>
+        <div id="scan-result" class="hidden">
+          <div class="glass-card scan-summary-card">
+            <div class="scan-summary-header">
+              <div><p class="stat-label">Detected Monthly Bill</p><p class="scan-amount">₹<span id="scan-amount">0</span></p></div>
+              <div><p class="stat-label">Units Consumed</p><p class="scan-amount-sm"><span id="scan-units">0</span> kWh</p></div>
+              <div><p class="stat-label">Avg. Tariff</p><p class="scan-amount-sm">₹7 / kWh</p></div>
+            </div>
+          </div>
+          <div class="glass-card">
+            <h3>📊 Energy Usage Breakdown</h3>
+            <p class="card-sub">AI ne aapke bill se pattern detect kiya</p>
+            <div class="scan-breakdown">
+              <div class="scan-breakdown-item"><div class="scan-breakdown-head"><span>❄️ Air Conditioning</span><span class="scan-breakdown-val">40%</span></div><div class="scan-bar"><div class="scan-bar-fill" style="--w:40%; --c:#06b6d4"></div></div></div>
+              <div class="scan-breakdown-item"><div class="scan-breakdown-head"><span>💡 Lighting & Fans</span><span class="scan-breakdown-val">22%</span></div><div class="scan-bar"><div class="scan-bar-fill" style="--w:22%; --c:#f59e0b"></div></div></div>
+              <div class="scan-breakdown-item"><div class="scan-breakdown-head"><span>🔌 Appliances (Fridge, WM)</span><span class="scan-breakdown-val">25%</span></div><div class="scan-bar"><div class="scan-bar-fill" style="--w:25%; --c:#10b981"></div></div></div>
+              <div class="scan-breakdown-item"><div class="scan-breakdown-head"><span>📺 Entertainment & Others</span><span class="scan-breakdown-val">13%</span></div><div class="scan-bar"><div class="scan-bar-fill" style="--w:13%; --c:#a855f7"></div></div></div>
+            </div>
+          </div>
+          <div class="glass-card">
+            <h3>💡 AI Savings Recommendations</h3>
+            <p class="card-sub">Aapka monthly bill ₹<span id="scan-bill-echo">0</span> hai — yeh actions lijiye</p>
+            <div class="scan-tips">
+              <div class="scan-tip"><div class="scan-tip-icon">❄️</div><div class="scan-tip-body"><p class="scan-tip-title">AC temperature 24°C par set karein</p><p class="scan-tip-desc">Har 1°C extra cooling 6% extra electricity khaati hai</p></div><div class="scan-tip-save">₹400<span>/mo</span></div></div>
+              <div class="scan-tip"><div class="scan-tip-icon">💡</div><div class="scan-tip-body"><p class="scan-tip-title">Purane bulbs ko LED se replace karein</p><p class="scan-tip-desc">LED 80% kam bijli use karta hai, same brightness</p></div><div class="scan-tip-save">₹150<span>/mo</span></div></div>
+              <div class="scan-tip"><div class="scan-tip-icon">⚡</div><div class="scan-tip-body"><p class="scan-tip-title">Peak hours (6–10 PM) avoid karein</p><p class="scan-tip-desc">Heavy appliances ko non-peak time par shift karein</p></div><div class="scan-tip-save">₹300<span>/mo</span></div></div>
+              <div class="scan-tip"><div class="scan-tip-icon">🔌</div><div class="scan-tip-body"><p class="scan-tip-title">Standby power cuts karein</p><p class="scan-tip-desc">TV, charger, router — use na ho toh switch off</p></div><div class="scan-tip-save">₹80<span>/mo</span></div></div>
+            </div>
+            <div class="scan-total-savings">
+              <div><p class="stat-label">Total Monthly Savings Possible</p><p class="scan-total-value">₹<span id="scan-total-savings">0</span></p></div>
+              <div><p class="stat-label">Yearly Impact</p><p class="scan-total-value emerald">₹<span id="scan-yearly-savings">0</span></p></div>
+            </div>
+          </div>
+          <div class="glass-card scan-solar-card">
+            <div class="scan-solar-glow"></div>
+            <h3>☀️ Ultimate Saving — Go Solar</h3>
+            <p class="card-sub">In sab actions se bhi zyada bachat rooftop solar se milegi</p>
+            <div class="scan-solar-row">
+              <div><p class="stat-label">Solar Monthly Savings</p><p class="scan-solar-value">₹<span id="scan-solar-savings">0</span></p></div>
+              <div><p class="stat-label">With PM Surya Ghar Subsidy</p><p class="scan-solar-value cyan">₹<span id="scan-solar-net">0</span> investment</p></div>
+            </div>
+            <button class="btn btn-primary btn-lg" onclick="window.SolarSetu.switchTab('vendors')">
+              <span>Explore Solar for My Home</span><span class="btn-arrow">→</span>
+            </button>
+          </div>
+          <button class="btn btn-secondary btn-lg" onclick="window.SolarSetu.resetScan()"><span>Upload Different Bill</span></button>
+        </div>
+      </section>
+
+      <section id="tab-community" class="tab-panel">
+        <div class="glass-card community-header-card">
+          <div class="community-header-icon">🤝</div>
+          <div>
+            <h3>Community & Solar Saathi</h3>
+            <p class="card-sub">Apne area ke neighbours ke saath compete karein aur group mein solar install karke extra discount payein.</p>
+          </div>
+        </div>
+        <div class="community-grid">
+          <div class="glass-card leaderboard-card">
+            <div class="leaderboard-header">
+              <div><h3>🏆 Neighbourhood Leaderboard</h3><p class="card-sub">Top green citizens in <span id="lb-city">your area</span></p></div>
+              <span class="badge emerald">Live</span>
+            </div>
+            <div id="leaderboard-list" class="leaderboard-list"></div>
+            <div class="leaderboard-footer"><span class="pulse-dot"></span><span>Weekly reset · Monday 00:00 IST</span></div>
+          </div>
+          <div class="glass-card pools-section">
+            <div class="pools-header">
+              <div><h3>🌞 Solar Saathi — Bulk-Buy Pools</h3><p class="card-sub">5+ neighbours = 12% extra vendor discount</p></div>
+              <button class="btn btn-primary pools-create-btn" onclick="window.SolarSetu.openPoolModal()"><span>+ New Pool</span></button>
+            </div>
+            <div id="pools-list" class="pools-list"></div>
+          </div>
+        </div>
+        <div class="glass-card community-impact-card">
+          <h3>📊 Your Community Impact</h3>
+          <p class="card-sub">Aapke area mein Mission LiFE actions</p>
+          <div class="impact-grid">
+            <div class="impact-stat" style="--accent:#10b981"><div class="impact-icon">🏠</div><p class="impact-value"><span id="impact-homes">0</span></p><p class="impact-label">Homes Engaged</p></div>
+            <div class="impact-stat" style="--accent:#06b6d4"><div class="impact-icon">⚡</div><p class="impact-value"><span id="impact-energy">0</span> kWh</p><p class="impact-label">Energy Saved</p></div>
+            <div class="impact-stat" style="--accent:#f59e0b"><div class="impact-icon">🌱</div><p class="impact-value"><span id="impact-co2">0</span> kg</p><p class="impact-label">CO₂ Avoided</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-rewards" class="tab-panel">
+        <div class="glass-card rewards-header-card">
+          <div class="rewards-header-icon">🏆</div>
+          <div>
+            <h3>Mission LiFE Rewards</h3>
+            <p class="card-sub">Daily green actions complete karein, streak maintain karein, aur real rewards redeem karein.</p>
+          </div>
+        </div>
+        <div class="rewards-top-grid">
+          <div class="glass-card coins-card">
+            <div class="coins-glow"></div>
+            <p class="stat-label">Your Green Coins Balance</p>
+            <p class="coins-balance">🪙 <span id="rewards-coins">0</span></p>
+            <div class="coins-today"><span>+<span id="rewards-today">0</span> earned today</span></div>
+          </div>
+          <div class="glass-card streak-card">
+            <p class="stat-label">Daily Streak</p>
+            <p class="streak-value"><span class="streak-fire">🔥</span> <span id="streak-current">0</span> <span class="streak-label">days</span></p>
+            <p class="streak-best">Best: <b><span id="streak-best">0</span> days</b></p>
+            <div class="streak-week" id="streak-week"></div>
+          </div>
+        </div>
+        <div class="glass-card daily-tasks-card">
+          <div class="daily-tasks-header">
+            <div><h3>🎯 Today's Green Missions</h3><p class="card-sub">Har task complete karne par Green Coins kamayein</p></div>
+            <div class="daily-progress-pill"><span id="tasks-done-count">0</span>/<span id="tasks-total-count">0</span> done</div>
+          </div>
+          <div class="daily-progress-bar"><div class="daily-progress-fill" id="daily-progress-fill"></div></div>
+          <div id="tasks-list" class="tasks-list"></div>
+        </div>
+        <div class="glass-card redeem-store-card">
+          <div class="redeem-header">
+            <div><h3>🛍️ Redeem Your Coins</h3><p class="card-sub">Green coins ko real rewards mein badlein</p></div>
+            <span class="badge emerald">🪙 <span id="redeem-balance-inline">0</span> available</span>
+          </div>
+          <div id="redeem-store-grid" class="redeem-store-grid"></div>
+        </div>
+        <div class="glass-card achievements-card">
+          <h3>🎖️ Achievements</h3>
+          <p class="card-sub">Milestones unlock karein aur badges kamayein</p>
+          <div id="achievements-grid" class="achievements-grid"></div>
+        </div>
+      </section>
+
+      <section id="tab-vendors" class="tab-panel">
+
+        <div class="glass-card vendors-header-card">
+          <div class="vendors-header-icon">📞</div>
+          <div>
+            <h3>GEDA-Empanelled Solar Vendors</h3>
+            <p class="card-sub">Verified vendors se direct callback request karein. Sabhi vendors Gujarat Energy Development Agency se approved hain.</p>
+          </div>
+        </div>
+
+        <div class="vendors-search-bar">
+          <div class="search-input-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="vendor-search" placeholder="Search by name, district, or service..." oninput="window.SolarSetu.filterVendors()">
+          </div>
+        </div>
+
+        <div class="vendors-filter-tabs" id="vendor-filter-tabs">
+          <button class="filter-pill active" data-filter="all" onclick="window.SolarSetu.setVendorFilter('all')">All</button>
+          <button class="filter-pill" data-filter="Ahmedabad" onclick="window.SolarSetu.setVendorFilter('Ahmedabad')">Ahmedabad</button>
+          <button class="filter-pill" data-filter="Gandhinagar" onclick="window.SolarSetu.setVendorFilter('Gandhinagar')">Gandhinagar</button>
+          <button class="filter-pill" data-filter="Vadodara" onclick="window.SolarSetu.setVendorFilter('Vadodara')">Vadodara</button>
+          <button class="filter-pill" data-filter="Surat" onclick="window.SolarSetu.setVendorFilter('Surat')">Surat</button>
+          <button class="filter-pill" data-filter="Rajkot" onclick="window.SolarSetu.setVendorFilter('Rajkot')">Rajkot</button>
+        </div>
+
+        <div class="vendors-summary-bar">
+          <span id="vendors-count">0</span> vendors found
+          <span class="vendors-summary-sep">·</span>
+          <span class="vendors-summary-tag">✓ GEDA Verified</span>
+        </div>
+
+        <div id="vendors-list" class="vendors-grid"></div>
+
+        <div id="vendors-empty" class="vendors-empty hidden">
+          <div class="vendors-empty-icon">🔍</div>
+          <h3>No vendors found</h3>
+          <p>Try different search or filter. Apne district ke vendors dekhne ke liye filter reset karein.</p>
+          <button class="btn btn-primary" onclick="window.SolarSetu.resetVendorFilters()"><span>Reset Filters</span></button>
+        </div>
+
+        <div class="glass-card vendor-callbacks-card">
+          <div class="callbacks-header">
+            <div>
+              <h3>📋 Your Callback Requests</h3>
+              <p class="card-sub">Vendors aapko 24 ghante mein contact karenge</p>
+            </div>
+            <span class="badge emerald" id="callbacks-count-badge">0 active</span>
+          </div>
+          <div id="callbacks-list" class="callbacks-list"></div>
+        </div>
+
+      </section>
+    </div>
+  </main>
+</div>
+
+<div id="pool-modal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3>🌞 Create Solar Saathi Pool</h3>
+      <button class="modal-close" onclick="window.SolarSetu.closePoolModal()">×</button>
+    </div>
+    <p class="card-sub">Apne area ke neighbours ko invite karein. 5 members complete hote hi group discount unlock ho jayega.</p>
+    <div class="form-group">
+      <label>Pool Name</label>
+      <input id="pool-name" type="text" placeholder="e.g., Green Heights Society" maxlength="40">
+    </div>
+    <div class="form-group">
+      <label>Area / Society Type</label>
+      <select id="pool-type">
+        <option value="Apartment Society">Apartment Society</option>
+        <option value="Row Houses">Row Houses</option>
+        <option value="Villa Community">Villa Community</option>
+        <option value="Neighbourhood">Neighbourhood</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Target Members</label>
+      <select id="pool-target">
+        <option value="5">5 members (12% discount)</option>
+        <option value="8">8 members (15% discount)</option>
+        <option value="10">10 members (18% discount)</option>
+      </select>
+    </div>
+    <button class="btn btn-primary btn-lg" onclick="window.SolarSetu.createPool()">
+      <span>Create Pool</span><span class="btn-arrow">→</span>
+    </button>
+  </div>
+</div>
+
+<div id="callback-modal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 id="callback-modal-title">📞 Request Callback</h3>
+      <button class="modal-close" onclick="window.SolarSetu.closeCallbackModal()">×</button>
+    </div>
+    <p class="card-sub">Vendor aapse 24 ghante ke andar contact karega. Aapka data safe rahega.</p>
+    <div class="callback-vendor-preview" id="callback-vendor-preview"></div>
+    <div class="form-group">
+      <label>Aapka Phone Number</label>
+      <input id="callback-phone" type="tel" placeholder="+91 98765 43210" maxlength="15">
+    </div>
+    <div class="form-group">
+      <label>Preferred Call Time</label>
+      <select id="callback-time">
+        <option value="Morning (9 AM – 12 PM)">Morning (9 AM – 12 PM)</option>
+        <option value="Afternoon (12 PM – 4 PM)">Afternoon (12 PM – 4 PM)</option>
+        <option value="Evening (4 PM – 8 PM)">Evening (4 PM – 8 PM)</option>
+        <option value="Any time">Any time</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Message (optional)</label>
+      <input id="callback-message" type="text" placeholder="e.g., 3kW system quote chahiye" maxlength="100">
+    </div>
+    <button class="btn btn-primary btn-lg" onclick="window.SolarSetu.submitCallback()">
+      <span>Submit Request</span><span class="btn-arrow">→</span>
+    </button>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
